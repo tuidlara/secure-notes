@@ -1,6 +1,7 @@
 package com.arthur.secure_notes.service;
 
 import com.arthur.secure_notes.dto.CadastroRequestDTO;
+import com.arthur.secure_notes.dto.LoginRequestDTO;
 import com.arthur.secure_notes.entity.Usuario;
 import com.arthur.secure_notes.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,5 +27,18 @@ public class UsuarioService {
         );
 
         usuarioRepository.save(usuario);
+    }
+
+    public void login(LoginRequestDTO dto) {
+        Usuario usuario = usuarioRepository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new RuntimeException("Email ou senha inválidos."));
+
+        boolean senhaCorreta = passwordEncoder.matches(
+                dto.getSenha(), usuario.getSenha()
+        );
+
+        if (!senhaCorreta){
+            throw new RuntimeException("Email ou senha inválidos.");
+        }
     }
 }
