@@ -1,6 +1,7 @@
 package com.arthur.secure_notes.controller;
 
 import com.arthur.secure_notes.dto.CriarNotaRequestDTO;
+import com.arthur.secure_notes.dto.NotaResponseDTO;
 import com.arthur.secure_notes.entity.Nota;
 import com.arthur.secure_notes.service.NotaService;
 import jakarta.validation.Valid;
@@ -31,7 +32,7 @@ public class NotaController {
     }
 
     @GetMapping
-    public List<Nota> listarNotas(Authentication authentication) {
+    public List<NotaResponseDTO> listarNotas(Authentication authentication) {
         String email = authentication.getName();
 
         return notaService.listarNotas(email);

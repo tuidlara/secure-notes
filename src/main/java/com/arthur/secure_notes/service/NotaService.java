@@ -1,6 +1,7 @@
 package com.arthur.secure_notes.service;
 
 import com.arthur.secure_notes.dto.CriarNotaRequestDTO;
+import com.arthur.secure_notes.dto.NotaResponseDTO;
 import com.arthur.secure_notes.entity.Nota;
 import com.arthur.secure_notes.entity.Usuario;
 import com.arthur.secure_notes.repository.NotaRepository;
@@ -36,7 +37,10 @@ public class NotaService {
         notaRepository.save(nota);
     }
 
-    public List<Nota> listarNotas(String email) {
-        return notaRepository.findByUsuarioEmail(email);
+    public List<NotaResponseDTO> listarNotas(String email) {
+        return notaRepository.findByUsuarioEmail(email)
+                .stream()
+                .map(NotaResponseDTO::new)
+                .toList();
     }
 }
