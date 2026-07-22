@@ -43,4 +43,11 @@ public class NotaService {
                 .map(NotaResponseDTO::new)
                 .toList();
     }
+
+    public NotaResponseDTO listarNotaPorId(Long id, String email) {
+        Nota nota = notaRepository.findByIdAndUsuarioEmail(id, email)
+                .orElseThrow(() -> new RuntimeException("Nota não encontrada."));
+        return new NotaResponseDTO(nota);
+    }
+
 }

@@ -2,7 +2,6 @@ package com.arthur.secure_notes.controller;
 
 import com.arthur.secure_notes.dto.CriarNotaRequestDTO;
 import com.arthur.secure_notes.dto.NotaResponseDTO;
-import com.arthur.secure_notes.entity.Nota;
 import com.arthur.secure_notes.service.NotaService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
@@ -37,4 +36,12 @@ public class NotaController {
 
         return notaService.listarNotas(email);
     }
+
+    @GetMapping("/{id}")
+    public NotaResponseDTO listarNotaPorId(@PathVariable Long id, Authentication authentication) {
+        String email = authentication.getName();
+
+        return notaService.listarNotaPorId(id, email);
+    }
+
 }
