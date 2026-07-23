@@ -5,6 +5,7 @@ import com.arthur.secure_notes.dto.CadastroRequestDTO;
 import com.arthur.secure_notes.dto.LoginRequestDTO;
 import com.arthur.secure_notes.entity.Usuario;
 import com.arthur.secure_notes.exception.CredenciaisInvalidasException;
+import com.arthur.secure_notes.exception.EmailJaCadastradoException;
 import com.arthur.secure_notes.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,11 @@ public class UsuarioService {
     }
 
     public void cadastrar(CadastroRequestDTO dto) {
+
+        if (usuarioRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new EmailJaCadastradoException("Email já cadastrado.");
+        }
+
         String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
 
         Usuario usuario = new Usuario(

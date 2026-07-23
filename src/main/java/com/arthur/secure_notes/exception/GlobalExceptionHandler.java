@@ -32,4 +32,11 @@ public class GlobalExceptionHandler {
                 ));
     }
 
+    @ExceptionHandler(EmailJaCadastradoException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String tratarEmailJaCadastrado(
+            EmailJaCadastradoException exception) {
+        return exception.getMessage();
+    }
+
 }
