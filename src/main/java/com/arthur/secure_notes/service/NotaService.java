@@ -58,4 +58,13 @@ public class NotaService {
         notaRepository.delete(nota);
     }
 
+    public void atualizarNota(Long id, CriarNotaRequestDTO novoDto, String email){
+        Nota nota = notaRepository.findByIdAndUsuarioEmail(id, email)
+                .orElseThrow(() -> new NotaNaoEncontradaException("Nota não encontrada."));
+
+        nota.setTitulo(novoDto.getTitulo());
+        nota.setConteudo(novoDto.getConteudo());
+
+        notaRepository.save(nota);
+    }
 }

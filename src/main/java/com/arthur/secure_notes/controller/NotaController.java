@@ -50,4 +50,11 @@ public class NotaController {
         notaService.deletarNota(id, email);
     }
 
+    @PutMapping("/{id}")
+    public void atualizarNota(@PathVariable Long id, @Valid @RequestBody CriarNotaRequestDTO novoDto, Authentication authentication){
+        String email = authentication.getName();
+
+        notaService.atualizarNota(id, novoDto, email);
+    }
+
 }
