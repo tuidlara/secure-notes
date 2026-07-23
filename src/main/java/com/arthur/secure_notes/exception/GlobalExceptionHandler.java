@@ -39,4 +39,11 @@ public class GlobalExceptionHandler {
         return exception.getMessage();
     }
 
+    @ExceptionHandler(NotaNaoEncontradaException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String tratarNotaNaoEncontrada(
+            NotaNaoEncontradaException exception) {
+        return exception.getMessage();
+    }
+
 }
