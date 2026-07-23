@@ -4,6 +4,8 @@ import com.arthur.secure_notes.dto.CriarNotaRequestDTO;
 import com.arthur.secure_notes.dto.NotaResponseDTO;
 import com.arthur.secure_notes.entity.Nota;
 import com.arthur.secure_notes.entity.Usuario;
+import com.arthur.secure_notes.exception.NotaNaoEncontradaException;
+import com.arthur.secure_notes.exception.UsuarioNaoEncontradoException;
 import com.arthur.secure_notes.repository.NotaRepository;
 import com.arthur.secure_notes.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,7 @@ public class NotaService {
 
     public void criarNota(CriarNotaRequestDTO dto, String email) {
         Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado."));
 
         Nota nota = new Nota(
                 dto.getTitulo(),
@@ -46,8 +48,14 @@ public class NotaService {
 
     public NotaResponseDTO listarNotaPorId(Long id, String email) {
         Nota nota = notaRepository.findByIdAndUsuarioEmail(id, email)
-                .orElseThrow(() -> new RuntimeException("Nota não encontrada."));
+                .orElseThrow(() -> new NotaNaoEncontradaException("Nota não encontrada."));
         return new NotaResponseDTO(nota);
+    }
+
+    public void deletarNota(Long id, String email) {
+        Nota nota = notaRepository.findByIdAndUsuarioEmail(id, email)
+                .orElseThrow(() -> new NotaNaoEncontradaException("Nota não encontrada"));
+        notaRepository.delete(nota);
     }
 
 }

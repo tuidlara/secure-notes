@@ -44,4 +44,10 @@ public class NotaController {
         return notaService.listarNotaPorId(id, email);
     }
 
+    @DeleteMapping("/{id}")
+    public void deletarNota(@PathVariable Long id, Authentication authentication) {
+        String email = authentication.getName();
+        notaService.deletarNota(id, email);
+    }
+
 }
